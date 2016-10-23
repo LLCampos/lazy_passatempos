@@ -4,24 +4,15 @@ $().ready(function($) {
         $(this).toggleClass('checked');
     });
 
-    getPassatempos();
 
-    /*
-    if (localStorage.length == 0) {
+    if (passatempos.isStored()) {
+        passatempos.showPassatempos();
+    } else {
+        passatempos.getNewPassatempos();
     }
-    */
 
 });
 
-var pcrawler_domain = 'http://localhost:5001/';
-
-var getPassatempos = function() {
-    var url = pcrawler_domain + 'passatempos';
-
-    $.get(url, function(data) {
-        fillPassatempos(data);
-    });
-};
 
 var getLastUpdate = function() {
     var url = pcrawler_domain + 'last_update';
@@ -31,24 +22,78 @@ var getLastUpdate = function() {
     });
 };
 
-var fillPassatempos = function(passatempos_obj) {
 
-    for (var website_name in passatempos_obj) {
+var passatempos = {
 
-        passatempo_elem = $('<div class="passatempo">');
-        passatempo_elem.append('<h2>' + website_name + '</h2>');
+    crawler_server_domain: 'http://localhost:5001/',
 
+    isStored: function() {
+        if (localStorage.passatempos) {
+            return true;
+        }
+        return false;
+    },
 
-        var ul = $('<ul class="passatempos-list"></ul>');
+    getLocalPassatempos: function() {
+        return JSON.parse(localStorage.passatempos);
+    },
 
-        for (var i in passatempos_obj[website_name]) {
-            var passatempo_obj =  passatempos_obj[website_name][i];
-            var li = $('<li>');
-            li.append('<a href="' + passatempo_obj.url + '">' + passatempo_obj.name + '</a>');
-            ul.append(li);
+    setLocalPassatempos: function(passatempos_obj) {
+
+        if (!passatempos.isStored) {
+            for (var website in passatempos_obj) {
+                for (var i in passatempos_obj[website]) {
+                    passatempos_obj[website][i].checked = false;
+                }
+            }
         }
 
-        passatempo_elem.append(ul);
-        $('#passatempos').append(passatempo_elem);
+        passatempos_str = JSON.stringify(passatempos_obj);
+        localStorage.setItem("passatempos", passatempos_str);
+    },
+
+    getNewPassatempos: function() {
+        var url = this.crawler_server_domain + 'passatempos';
+
+        $.get(url, function(passatempos_obj) {
+            passatempos.setLocalPassatempos(passatempos_obj);
+            passatempos.showPassatempos();
+        });
+    },
+
+    showPassatempos: function() {
+
+        passatempos_obj = passatempos.getLocalPassatempos();
+
+        for (var website_name in passatempos_obj) {
+
+            passatempo_elem = $('<div class="passatempo">');
+            passatempo_elem.append('<h2>' + website_name + '</h2>');
+
+
+            var ul = $('<ul class="passatempos-list"></ul>');
+
+            for (var i in passatempos_obj[website_name]) {
+                var passatempo_obj =  passatempos_obj[website_name][i];
+
+                var li;
+                if (passatempos_obj.checked) {
+                    li = $('<li class="checked">');
+                } else {
+                    li = $('<li>');
+                }
+                li.append('<a href="' + passatempo_obj.url + '">' + passatempo_obj.name + '</a>');
+                ul.append(li);
+            }
+
+            passatempo_elem.append(ul);
+            $('#passatempos').append(passatempo_elem);
+        }
+    },
+
+    checkPassatempo: function(website, index) {
+        passatempos_obj = passatempos.getLocalPassatempos();
+        passatempos_obj[website][index].checked = true;
+        passatempos.setLocalPassatempos(passatempos_obj);
     }
 };
