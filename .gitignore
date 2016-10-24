@@ -1,3 +1,5 @@
 /js/.eslintrc.js
 /js/node_modules
 /js/package.json
+*.sublime-project
+*.sublime-workspace
