@@ -4,7 +4,6 @@ $().ready(function($) {
         $(this).toggleClass('checked');
     });
 
-
     if (passatempos.isStored()) {
         passatempos.showPassatempos();
     } else {
@@ -76,12 +75,12 @@ var passatempos = {
             for (var i in passatempos_obj[website_name]) {
                 var passatempo_obj =  passatempos_obj[website_name][i];
 
-                var li;
-                if (passatempos_obj.checked) {
-                    li = $('<li class="checked">');
-                } else {
-                    li = $('<li>');
+                var li = $('<li>');
+
+                if (passatempo_obj.checked) {
+                    li.addClass('checked');
                 }
+
                 li.append('<a href="' + passatempo_obj.url + '">' + passatempo_obj.name + '</a>');
                 ul.append(li);
             }
