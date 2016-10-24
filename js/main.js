@@ -54,7 +54,7 @@ const passatempos = {
           li.addClass('checked');
         }
 
-        li.append(`<a href="${passatempoObj.url}">${passatempoObj.name}</a>`);
+        li.append(`<a href="${passatempoObj.url}" target="_blank">${passatempoObj.name}</a>`);
         ul.append(li);
       });
 
