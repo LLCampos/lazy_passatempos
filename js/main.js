@@ -54,7 +54,7 @@ const passatempos = {
       });
 
       passatempos.passatempos_obj = newPassatemposObj;
-      // passatempos.save();
+      passatempos.save();
       passatempos.showPassatempos();
     });
   },
