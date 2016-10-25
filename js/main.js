@@ -99,6 +99,7 @@ $().ready(($) => {
     const websiteName = $(this).parent().siblings('.website-name').text();
     const passatempoName = $(this).text();
 
+    passatempos.toogleCheckPassatempo(websiteName, passatempoName);
   });
 
   $('#passatempos').off('click', 'ul li a');
