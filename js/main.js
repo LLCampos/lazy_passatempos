@@ -47,6 +47,8 @@ const passatempos = {
   },
 
   showPassatempos() {
+    $('#passatempos').empty();
+
     const passatemposObj = passatempos.passatempos_obj;
 
     Object.keys(passatemposObj).forEach((websiteName) => {
@@ -102,7 +104,7 @@ $().ready(($) => {
     passatempos.toogleCheckPassatempo(websiteName, passatempoName);
   });
 
-  $('#passatempos').off('click', 'ul li a');
+  $('#btn-get-passatempos').on('click', () => passatempos.getNewPassatempos());
 
   passatempos.load();
 });
