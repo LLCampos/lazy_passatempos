@@ -40,14 +40,21 @@ const passatempos = {
   getNewPassatempos() {
     const url = `${this.crawler_server_domain}passatempos`;
 
-    $.get(url, (passatemposObj) => {
-      // Object.keys(passatemposObj).forEach((websiteName) => {
-      //   passatemposObj[websiteName].forEach((passatempo) => {
-      //     if passsatempos.passatempos_obj
-      //   });
-      // });
+    $.get(url, (newPassatemposObj) => {
+      // Checks if passatempos being received are already in the user storage and maintain their
+      // state.
+      Object.keys(newPassatemposObj).forEach((websiteName) => {
+        newPassatemposObj[websiteName].forEach((NewPassatempo) => {
+          const passatempoName = NewPassatempo.name;
+          const oldPassatempo = passatempos.getPassatempo(websiteName, passatempoName);
+          if (oldPassatempo !== undefined && oldPassatempo.checked) {
+            NewPassatempo.checked = true;
+          }
+        });
+      });
 
-      passatempos.passatempos_obj = passatemposObj;
+      passatempos.passatempos_obj = newPassatemposObj;
+      // passatempos.save();
       passatempos.showPassatempos();
     });
   },
