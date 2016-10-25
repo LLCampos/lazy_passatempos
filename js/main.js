@@ -41,6 +41,12 @@ const passatempos = {
     const url = `${this.crawler_server_domain}passatempos`;
 
     $.get(url, (passatemposObj) => {
+      // Object.keys(passatemposObj).forEach((websiteName) => {
+      //   passatemposObj[websiteName].forEach((passatempo) => {
+      //     if passsatempos.passatempos_obj
+      //   });
+      // });
+
       passatempos.passatempos_obj = passatemposObj;
       passatempos.showPassatempos();
     });
@@ -74,10 +80,15 @@ const passatempos = {
     });
   },
 
-  toogleCheckPassatempo(websiteName, passatempoName) {
+  getPassatempo(websiteName, passatempoName) {
     const websitePassatempos = passatempos.passatempos_obj[websiteName];
-    const passatempoToCheck = websitePassatempos.find(passatempo =>
+    const passatempoWanted = websitePassatempos.find(passatempo =>
                                                               passatempo.name === passatempoName);
+    return passatempoWanted;
+  },
+
+  toogleCheckPassatempo(websiteName, passatempoName) {
+    const passatempoToCheck = passatempos.getPassatempo(websiteName, passatempoName);
     if (passatempoToCheck.checked) {
       passatempoToCheck.checked = false;
     } else {
