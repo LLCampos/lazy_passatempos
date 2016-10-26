@@ -113,13 +113,17 @@ const passatempos = {
 
 
 $().ready(($) => {
-  $('#passatempos').on('click', 'ul li', function toogleChecked() {
-    $(this).toggleClass('checked');
+  $('#passatempos').on('click', 'ul li', function toogleChecked(e) {
+    // The conditional is to avoid that the passatempo gets checked when the user clicks on the
+    // hyperlink.
+    if (e.target === this) {
+      $(this).toggleClass('checked');
 
-    const websiteName = $(this).parent().siblings('.website-name').text();
-    const passatempoName = $(this).text();
+      const websiteName = $(this).parent().siblings('.website-name').text();
+      const passatempoName = $(this).text();
 
-    passatempos.toogleCheckPassatempo(websiteName, passatempoName);
+      passatempos.toogleCheckPassatempo(websiteName, passatempoName);
+    }
   });
 
   $('#btn-get-passatempos').on('click', () => passatempos.getNewPassatempos());
