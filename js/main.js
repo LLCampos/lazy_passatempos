@@ -6,7 +6,7 @@ const passatempos = {
   passatempos_obj: '',
 
   // Loads the object with the list of passatempos into memory.
-  load() {
+  loadFromLocalStorage() {
     if (passatempos.isStored()) {
       passatempos.passatempos_obj = passatempos.getLocalPassatempos();
       passatempos.showPassatempos();
@@ -15,9 +15,33 @@ const passatempos = {
     }
   },
 
+  loadFromLocalMachine() {
+    const passatemposFile = $('#input-load')[0].files[0];
+    const reader = new FileReader();
+    reader.readAsText(passatemposFile, 'UTF-8');
+    reader.onload = (evt) => {
+      const jsonString = evt.target.result;
+      passatempos.setLocalPassatempos(JSON.parse(jsonString));
+      passatempos.loadFromLocalStorage();
+    };
+    reader.onerror = () => {
+      window.alert('There was some error.');
+    };
+  },
+
   // Saves the current passatempos object into the browser local storage
-  save() {
+  saveInLocalStorage() {
     passatempos.setLocalPassatempos(passatempos.passatempos_obj);
+  },
+
+  // Saves the current passatempos object in the user computer
+  saveInLocalMachine() {
+    const text = JSON.stringify(passatempos.passatempos_obj);
+
+    const a = document.createElement('a');
+    a.setAttribute('href', `data:application/json;charset=utf-u,${encodeURIComponent(text)}`);
+    a.setAttribute('download', 'passatempos.json');
+    a.click();
   },
 
   isStored() {
@@ -54,7 +78,7 @@ const passatempos = {
       });
 
       passatempos.passatempos_obj = newPassatemposObj;
-      passatempos.save();
+      passatempos.saveInLocalStorage();
       passatempos.showPassatempos();
     }).fail(() => window.alert("Can't connect to pcrawler server."));
   },
@@ -102,7 +126,7 @@ const passatempos = {
       passatempoToCheck.checked = true;
     }
 
-    passatempos.save();
+    passatempos.saveInLocalStorage();
   },
 
   getLastUpdate() {
@@ -127,6 +151,14 @@ $().ready(($) => {
   });
 
   $('#btn-get-passatempos').on('click', () => passatempos.getNewPassatempos());
+  $('#btn-save').on('click', () => passatempos.saveInLocalMachine());
+  $('#btn-load').on('click', () => {
+    const result = confirm('Are you sure you want to upload the file? The current list of' +
+                           'passatempos will be deleted!');
+    if (result) {
+      $('#input-load').click();
+    }
+  });
 
-  passatempos.load();
+  passatempos.loadFromLocalStorage();
 });
