@@ -66,17 +66,19 @@ const passatempos = {
     $('#get-passatempos-spinner').css('display', 'inline');
 
     $.get(url, (newPassatemposObj) => {
-      // Checks if passatempos being received are already in the user storage and maintain their
+      // Checks if passatempos being received are already in the user storage and maintain its
       // state.
-      Object.keys(newPassatemposObj).forEach((websiteName) => {
-        newPassatemposObj[websiteName].forEach((NewPassatempo) => {
-          const passatempoName = NewPassatempo.name;
-          const oldPassatempo = passatempos.getPassatempo(websiteName, passatempoName);
-          if (oldPassatempo !== undefined && oldPassatempo.checked) {
-            NewPassatempo.checked = true;
-          }
+      if (passatempos.isStored()) {
+        Object.keys(newPassatemposObj).forEach((websiteName) => {
+          newPassatemposObj[websiteName].forEach((NewPassatempo) => {
+            const passatempoName = NewPassatempo.name;
+            const oldPassatempo = passatempos.getPassatempo(websiteName, passatempoName);
+            if (oldPassatempo !== undefined && oldPassatempo.checked) {
+              NewPassatempo.checked = true;
+            }
+          });
         });
-      });
+      }
 
       passatempos.passatempos_obj = newPassatemposObj;
       passatempos.saveInLocalStorage();
