@@ -63,6 +63,7 @@ const passatempos = {
   // Request new passatempos data to the crawler webservice.
   getNewPassatempos() {
     const url = `${this.crawler_server_domain}passatempos`;
+    $('#get-passatempos-spinner').css('display', 'inline');
 
     $.get(url, (newPassatemposObj) => {
       // Checks if passatempos being received are already in the user storage and maintain their
@@ -80,6 +81,8 @@ const passatempos = {
       passatempos.passatempos_obj = newPassatemposObj;
       passatempos.saveInLocalStorage();
       passatempos.showPassatempos();
+
+      $('#get-passatempos-spinner').css('display', 'none');
     }).fail(() => window.alert("Can't connect to pcrawler server."));
   },
 

@@ -6,6 +6,10 @@
     display: inline;
 }
 
+#get-passatempos-spinner {
+    display: none;
+}
+
 /* ==========================================================================
    List of passatempos
 

@@ -20,12 +20,15 @@
     <nav class="navbar navbar-inverse navbar-fixed-top">
       <div class="container">
         <div class="navbar-header">
-          <a class="navbar-brand" href="#">Lazy Passatempos</a>
+          <div class="navbar-brand">Lazy Passatempos</div>
         </div>
         <div id="navbar">
             <ul class="nav navbar-nav">
                 <li>
-                    <button class="btn btn-default navbar-btn" type="button" id="btn-get-passatempos">GET MORE!</button>
+                    <button class="btn btn-default navbar-btn" type="button" id="btn-get-passatempos">
+                        <span id="get-passatempos-spinner"><img src="img/spinner.gif" width="20" height="20"></span>
+                        GET MORE!
+                    </button>
                     <button class="btn btn-default navbar-btn" type="button" id="btn-save">Save</button>
                     <input type="file" id="input-load" style="display:none" onchange="passatempos.loadFromLocalMachine()">
                     <button class="btn btn-default navbar-btn" type="button" id="btn-load">Load</a>
