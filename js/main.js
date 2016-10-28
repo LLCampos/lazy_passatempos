@@ -81,8 +81,9 @@ const passatempos = {
       passatempos.passatempos_obj = newPassatemposObj;
       passatempos.saveInLocalStorage();
       passatempos.showPassatempos();
-    }).fail(() => window.alert("Can't connect to pcrawler server."))
-      .always(() => $('#get-passatempos-spinner').css('display', 'none'));
+
+      $('#get-passatempos-spinner').css('display', 'none');
+    }).fail(() => window.alert("Can't connect to pcrawler server."));
   },
 
   showPassatempos() {
