@@ -71,10 +71,12 @@ const passatempos = {
       if (passatempos.isStored()) {
         Object.keys(newPassatemposObj).forEach((websiteName) => {
           newPassatemposObj[websiteName].forEach((NewPassatempo) => {
-            const passatempoName = NewPassatempo.name;
-            const oldPassatempo = passatempos.getPassatempo(websiteName, passatempoName);
-            if (oldPassatempo !== undefined && oldPassatempo.checked) {
-              NewPassatempo.checked = true;
+            if (passatempos.passatempos_obj.hasOwnProperty(websiteName)) {
+              const passatempoName = NewPassatempo.name;
+              const oldPassatempo = passatempos.getPassatempo(websiteName, passatempoName);
+              if (oldPassatempo !== undefined && oldPassatempo.checked) {
+                NewPassatempo.checked = true;
+              }
             }
           });
         });
