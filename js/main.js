@@ -89,7 +89,8 @@ const passatempos = {
       .always(() => $('#get-passatempos-spinner').css('display', 'none'));
   },
 
-  showPassatempos() {
+  showPassatempos(mode = 'all') {
+    // Mode can be 'all', 'checked' or 'unchecked'
     $('#passatempos').empty();
 
     const passatemposObj = passatempos.passatempos_obj;
@@ -100,9 +101,18 @@ const passatempos = {
 
       const ul = $('<ul class="passatempos-list"></ul>');
 
-      passatemposObj[websiteName].forEach((obj, i) => {
-        const passatempoObj = passatemposObj[websiteName][i];
+      const allPassatempos = passatemposObj[websiteName];
 
+      let passatemposToShow;
+      if (mode === 'all') {
+        passatemposToShow = allPassatempos;
+      } else if (mode === 'checked') {
+        passatemposToShow = allPassatempos.filter(x => x.checked);
+      } else if (mode === 'unchecked') {
+        passatemposToShow = allPassatempos.filter(x => !x.checked);
+      }
+
+      passatemposToShow.forEach((passatempoObj) => {
         const li = $('<li>');
         if (passatempoObj.checked) {
           li.addClass('checked');
@@ -164,6 +174,11 @@ $().ready(($) => {
     if (result) {
       $('#input-load').click();
     }
+  });
+
+  $('#dropdown-menu-filter').on('click', 'a', (event) => {
+    const mode = event.target.text.toLowerCase();
+    passatempos.showPassatempos(mode);
   });
 
   passatempos.loadFromLocalStorage();
