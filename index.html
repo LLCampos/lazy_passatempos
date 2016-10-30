@@ -12,6 +12,7 @@
             }
         </style>
         <link rel="stylesheet" href="css/bootstrap-theme.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.2/css/bootstrap-select.min.css">
         <link rel="stylesheet" href="css/main.css">
 
         <script src="js/vendor/modernizr-2.8.3.min.js"></script>
@@ -36,14 +37,11 @@
             </ul>
         </div>
         <ul class="nav navbar-nav navbar-right">
-            <div class="dropdown">
-              <button class="btn btn-default navbar-btn dropdown-toggle" type="button" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Filter<span class="caret"></span></button>
-              <ul class="dropdown-menu" id="dropdown-menu-filter">
-                <li><a href="#">All</a></li>
-                <li><a href="#">Checked</a></li>
-                <li><a href="#">Unchecked</a></li>
-              </ul>
-            </div>
+          <select class="selectpicker navbar-btn" id="select-filter">
+              <option value="all">All</option>
+              <option value="checked">Checked</option>
+              <option value="unchecked">Unchecked</option>
+          </select>
         </ul>
       </div>
     </nav>
@@ -56,6 +54,7 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
         <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.11.2.min.js"><\/script>')</script>
         <script src="js/vendor/bootstrap.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.2/js/bootstrap-select.min.js"></script>
         <!-- <script src="https://code.jquery.com/qunit/qunit-2.0.1.js"></script> -->
         <script src="js/main.js"></script>
         <!-- <script src="js/main_tests.js"></script> -->

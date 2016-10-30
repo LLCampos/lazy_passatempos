@@ -163,6 +163,7 @@ $().ready(($) => {
       const passatempoName = $(this).text();
 
       passatempos.toogleCheckPassatempo(websiteName, passatempoName);
+      $('#select-filter').change();
     }
   });
 
@@ -176,9 +177,9 @@ $().ready(($) => {
     }
   });
 
-  $('#dropdown-menu-filter').on('click', 'a', (event) => {
-    const mode = event.target.text.toLowerCase();
-    passatempos.showPassatempos(mode);
+  $('#select-filter').on('change', (event) => {
+    const filterMode = event.target.value;
+    passatempos.showPassatempos(filterMode);
   });
 
   passatempos.loadFromLocalStorage();
