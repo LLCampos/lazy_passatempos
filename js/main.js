@@ -84,12 +84,12 @@ const passatempos = {
 
       passatempos.passatempos_obj = newPassatemposObj;
       passatempos.saveInLocalStorage();
-      passatempos.showPassatempos();
+      passatempos.showPassatemposWithCurrentFilter();
     }).fail(() => window.alert("Can't connect to pcrawler server."))
       .always(() => $('#get-passatempos-spinner').css('display', 'none'));
   },
 
-  showPassatempos(mode = 'all') {
+  showPassatempos(filterMode = 'all') {
     // Mode can be 'all', 'checked' or 'unchecked'
     $('#passatempos').empty();
 
@@ -104,11 +104,11 @@ const passatempos = {
       const allPassatempos = passatemposObj[websiteName];
 
       let passatemposToShow;
-      if (mode === 'all') {
+      if (filterMode === 'all') {
         passatemposToShow = allPassatempos;
-      } else if (mode === 'checked') {
+      } else if (filterMode === 'checked') {
         passatemposToShow = allPassatempos.filter(x => x.checked);
-      } else if (mode === 'unchecked') {
+      } else if (filterMode === 'unchecked') {
         passatemposToShow = allPassatempos.filter(x => !x.checked);
       }
 
@@ -125,6 +125,11 @@ const passatempos = {
       passatempoElem.append(ul);
       $('#passatempos').append(passatempoElem);
     });
+  },
+
+  showPassatemposWithCurrentFilter() {
+    const filterMode = $('#select-filter').selectpicker('val');
+    passatempos.showPassatempos(filterMode);
   },
 
   getPassatempo(websiteName, passatempoName) {
@@ -163,7 +168,7 @@ $().ready(($) => {
       const passatempoName = $(this).text();
 
       passatempos.toogleCheckPassatempo(websiteName, passatempoName);
-      $('#select-filter').change();
+      passatempos.showPassatemposWithCurrentFilter();
     }
   });
 
@@ -177,10 +182,7 @@ $().ready(($) => {
     }
   });
 
-  $('#select-filter').on('change', (event) => {
-    const filterMode = event.target.value;
-    passatempos.showPassatempos(filterMode);
-  });
+  $('#select-filter').on('change', () => passatempos.showPassatemposWithCurrentFilter());
 
   passatempos.loadFromLocalStorage();
 });
